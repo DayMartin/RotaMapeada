@@ -1,0 +1,14 @@
+### BUSCAR TODOS OS PONTOS
+
+GET http://localhost:5000
+
+### CADASTRAR NOVO PONTO
+
+POST http://localhost:5000/register/ponto
+Content-Type: application/json
+
+{
+    "date_time": "Doria",
+    "latitude": "12333322",
+    "longitude": "2223444423"
+}

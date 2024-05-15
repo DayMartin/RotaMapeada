@@ -22,6 +22,23 @@ def create_person():
         return jsonify({'message': 'Novo usuário criado!'}), 201
     else:
         return jsonify({'error': 'Nome de usuário e senha são necessários!'}), 400
+    
+# Rota para consultas todos os usuários
+@user_controller.route('/consulta/user', methods=['GET'])
+def consultar_users():
+    conn = get_mysql_connection()
+
+    cursor = conn.cursor(dictionary=True)
+
+    usuario = cursor.execute("SELECT * FROM people")
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not user:
+        return jsonify({'message': 'Usuários não encontrados!'}), 401
+    return usuario
+    
 
 # @user_controller.route('/login', methods=['POST'])
 # def login():
