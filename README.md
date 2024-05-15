@@ -13,8 +13,15 @@ docker-compose up
 Existe uma pasta no backend chamada 'Test' para utilizar os arquivos de teste instale
 no vscode a extensão 'REST Cliente'
 
+### A rota para inclusão de pontos atualiza os dados de positions.json
 
 Front
+
+#### Se você já tiver o MYSQL instalado em seu computador, aconselho pausa-lo para não dar conflitos de porta com o container
+
+```sh
+sudo systemctl stop mysql
+```
 
 
 # installs nvm (Node Version Manager)
@@ -26,40 +33,6 @@ nvm install 20
 npm install -g @angular/cli
 ng new frontnd
 
-
-pip install folium
-
-from flask import Flask, render_template
-import json
-import folium
-
-app = Flask(__name__)
-
-@app.route('/mapa')
-def mapa():
-    # Carregar os dados do arquivo positions.json
-    with open('positions.json', 'r') as f:
-        data = json.load(f)
-
-    # Criar um mapa com a primeira coordenada como ponto inicial
-    m = folium.Map(location=[float(data['data'][0]['latitude']), float(data['data'][0]['longitude'])], zoom_start=12)
-
-    # Adicionar marcadores para cada coordenada
-    for point in data['data']:
-        folium.Marker(location=[float(point['latitude']), float(point['longitude'])]).add_to(m)
-
-    # Criar uma linha poligonal conectando as coordenadas
-    polyline = [(float(point['latitude']), float(point['longitude'])) for point in data['data']]
-    folium.PolyLine(polyline, color="blue", weight=2.5, opacity=1).add_to(m)
-
-    # Salvar o mapa como um arquivo HTML
-    m.save('templates/mapa.html')
-
-    # Renderizar o template HTML
-    return render_template('mapa.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 <!DOCTYPE html>

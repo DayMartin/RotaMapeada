@@ -8,3 +8,4 @@ mysqlclient==2.0.3
 marshmallow-sqlalchemy==0.26.1
 mysql-connector-python
 flask_bcrypt
+folium
