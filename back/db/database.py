@@ -1,11 +1,13 @@
 import mysql.connector
+from flask import Flask, request, jsonify
+import datetime
 
 def get_mysql_connection():
     # Configuração da conexão
     config = {
         'user': 'root',
         'password': 'Rs5kD85DQk6',
-        'host': 'localhost',
+        'host': 'servidor_mysql',
         'database': 'dbrotas',
         'port':'3306'
     }

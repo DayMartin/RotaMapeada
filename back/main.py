@@ -1,5 +1,6 @@
 from flask import Flask, make_response
 from controllers.userController import user_controller
+from controllers.pontosController import pontos_controller
 from db.database import get_mysql_connection
 
 app = Flask(__name__)
@@ -8,6 +9,7 @@ app = Flask(__name__)
 conn = get_mysql_connection()
 
 app.register_blueprint(user_controller)
+app.register_blueprint(pontos_controller)
 
 @app.route('/')
 def root():

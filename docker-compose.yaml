@@ -25,7 +25,7 @@ services:
       - MYSQL_PASSWORD=2Rs5kD85DQk6
       - TZ=America/Sao_Paulo
     healthcheck:
-      test: mysqladmin ping -h servidor_mysql -u root -pRs5kD85DQk6 || exit 1
+      test: ["CMD-SHELL", "mysqladmin ping -h servidor_mysql -u root -pRs5kD85DQk6 || exit 1"]
       interval: 30s
       timeout: 20s
       retries: 5
@@ -42,9 +42,11 @@ services:
     volumes:
       - .:/src/app
     depends_on:
-      - servidor_mysql
+      servidor_mysql:
+        condition: "service_healthy"
     networks:
       - my_network
+
 
 volumes:
   mysql:

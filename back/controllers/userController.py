@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 from functools import wraps
+from db.database import get_mysql_connection
 from models.userModel import Person
 
 user_controller = Blueprint('user_controller', __name__)
@@ -22,38 +23,36 @@ def create_person():
     else:
         return jsonify({'error': 'Nome de usuário e senha são necessários!'}), 400
 
-# Rota para fazer login
-@user_controller.route('/login', methods=['POST'])
-def login():
-    auth = request.authorization
-    if not auth or not auth.username or not auth.password:
-        return jsonify({'message': 'Could not verify', 'WWW-Authenticate': 'Basic realm="Login required!"'}), 401
-    
-    user = Person.query.filter_by(username=auth.username).first()
-    
-    if not user:
-        return jsonify({'message': 'User not found!'}), 401
-    
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'username': user.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-        return jsonify({'token': token.decode('UTF-8')})
-    
-    return jsonify({'message': 'Password incorrect!'}), 401
+# @user_controller.route('/login', methods=['POST'])
+# def login():
+#     auth = request.authorization
 
-# Função para verificar token de autenticação
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = request.args.get('token')
-        
-        if not token:
-            return jsonify({'message': 'Token is missing!'}), 401
-        
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-        except:
-            return jsonify({'message': 'Token is invalid!'}), 401
-        
-        return f(*args, **kwargs)
+#     conn = get_mysql_connection()
+#     cursor = conn.cursor(dictionary=True)
+
+#     cursor.execute("SELECT * FROM people WHERE username = %s", (auth.username,))
+#     user = cursor.fetchone()
+#     cursor.close()
+#     conn.close()
     
-    return decorated
+#     if not user:
+#         return jsonify({'message': 'Usuário não encontrado!'}), 401
+    
+#     return jsonify({'message': 'Senha incorreta!'}), 401
+
+# def token_required(f):
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         token = request.args.get('token')
+        
+#         if not token:
+#             return jsonify({'message': 'Token ausente!'}), 401
+        
+#         try:
+#             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+#         except:
+#             return jsonify({'message': 'Token inválido!'}), 401
+        
+#         return f(*args, **kwargs)
+    
+#     return decorated
