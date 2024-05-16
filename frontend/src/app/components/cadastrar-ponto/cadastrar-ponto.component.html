@@ -1,0 +1,12 @@
+<form [formGroup]="form" (ngSubmit)="cadastrar()">
+    <div>
+      <label for="latitude">Latitude:</label>
+      <input type="text" id="latitude" formControlName="latitude">
+    </div>
+    <div>
+      <label for="longitude">Longitude:</label>
+      <input type="text" id="longitude" formControlName="longitude">
+    </div>
+    <button type="submit" [disabled]="form.invalid">Cadastrar</button>
+  </form>
+  

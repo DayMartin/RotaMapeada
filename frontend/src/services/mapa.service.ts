@@ -16,9 +16,9 @@ export class MapaService {
   //   return this.http.get(`${Environment.URL_BASE}/get/pontos`);
   // }
 
-  // cadastrarPonto(data: { latitude: string, longitude: string }): Observable<any> {
-  //   return this.http.post(`${Environment.URL_BASE}/register/pontos`, data);
-  // }
+  cadastrarPonto(data: { latitude: string, longitude: string }): Observable<any> {
+    return this.http.post(`${environment.URL_BASE}/register/pontos`, data);
+  }
 
 
   construirMapa(): Observable<string> {

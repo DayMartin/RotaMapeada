@@ -16,10 +16,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { SafeHtmlPipe } from './components/mapa/safe-html.pipe';
 import { MapaComponent } from './components/mapa/mapa.component';
+import { CadastrarPontoComponent } from './components/cadastrar-ponto/cadastrar-ponto.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [AppComponent, MapaComponent, LoginComponent, SafeHtmlPipe],
+  declarations: [AppComponent, MapaComponent, LoginComponent, SafeHtmlPipe, CadastrarPontoComponent],
   imports: [
     BrowserModule, 
     AppRoutingModule,
@@ -31,7 +33,8 @@ import { MapaComponent } from './components/mapa/mapa.component';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

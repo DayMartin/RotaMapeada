@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MapaService } from 'src/services/mapa.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CadastrarPontoComponent } from '../cadastrar-ponto/cadastrar-ponto.component';
 
 @Component({
   selector: 'app-mapa',
@@ -10,7 +12,11 @@ import { MapaService } from 'src/services/mapa.service';
 export class MapaComponent implements OnInit {
   mapHtml: SafeResourceUrl | undefined;
 
-  constructor(private mapService: MapaService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private mapService: MapaService, 
+    private sanitizer: DomSanitizer, 
+    public dialog: MatDialog
+    ) { }
 
   ngOnInit(): void {
     this.mapService.construirMapa().subscribe(
@@ -26,5 +32,15 @@ export class MapaComponent implements OnInit {
     const htmlContent = `<html><head></head><body>${html}</body></html>`;
     const blob = new Blob([htmlContent], { type: 'text/html' });
     this.mapHtml = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+  }
+
+  abrirDialogo() {
+    const dialogRefEdit = this.dialog.open(CadastrarPontoComponent, {
+      width: '1000px',
+      data: {},
+    });
+
+    dialogRefEdit.afterClosed().subscribe((packageId: string) => {
+    });
   }
 }
