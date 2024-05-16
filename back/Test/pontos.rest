@@ -15,4 +15,4 @@ Content-Type: application/json
 
 ### CONSTRUIR MAPA
 
-GET http://localhost:5000/mapa
+POST http://localhost:5000/mapa
