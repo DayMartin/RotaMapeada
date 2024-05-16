@@ -1,11 +1,13 @@
 from flask import Flask, make_response
+from flask_cors import CORS
 from controllers.userController import user_controller
 from controllers.pontosController import pontos_controller
 from db.database import get_mysql_connection
 
 app = Flask(__name__)
 
-# Chama a função para obter a conexão MySQL
+CORS(app)
+
 conn = get_mysql_connection()
 
 app.register_blueprint(user_controller)

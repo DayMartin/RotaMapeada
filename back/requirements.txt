@@ -1,11 +1,12 @@
 jwt
-flask_marshmallow
+# flask_marshmallow
 
 Flask
-Flask-SQLAlchemy==3.0.0
-SQLAlchemy==1.4.31
+# Flask-SQLAlchemy==3.0.0
+# SQLAlchemy==1.4.31
 mysqlclient==2.0.3
-marshmallow-sqlalchemy==0.26.1
+# marshmallow-sqlalchemy==0.26.1
 mysql-connector-python
 flask_bcrypt
 folium
+Flask-CORS
