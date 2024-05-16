@@ -41,6 +41,9 @@ export class MapaComponent implements OnInit {
     });
 
     dialogRefEdit.afterClosed().subscribe((packageId: string) => {
+      // console.log('ID do pacote fechado:', packageId);
+      // console.log('id do pacote 1', this.data);
+      this.ngOnInit
     });
   }
 }

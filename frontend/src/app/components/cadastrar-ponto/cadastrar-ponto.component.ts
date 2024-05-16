@@ -18,6 +18,7 @@ export class CadastrarPontoComponent implements OnInit {
       longitude: ['', Validators.required]
     });
   }
+  
 
   get latitude() {
     return this.form.get('latitude');
