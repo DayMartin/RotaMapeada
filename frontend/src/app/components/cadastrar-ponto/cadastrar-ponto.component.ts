@@ -18,7 +18,7 @@ export class CadastrarPontoComponent implements OnInit {
       longitude: ['', Validators.required]
     });
   }
-  
+
 
   get latitude() {
     return this.form.get('latitude');
@@ -35,7 +35,6 @@ export class CadastrarPontoComponent implements OnInit {
       this.mapService.cadastrarPonto({ latitude, longitude }).subscribe(
         response => {
           console.log('Ponto cadastrado com sucesso:', response);
-          // Limpar o formulário após o cadastro bem-sucedido, se necessário
           this.form.reset();
         },
         error => {

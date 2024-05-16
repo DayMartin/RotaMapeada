@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
       const { username, password } = this.loginForm.value;
       console.log('Username:', username);
       console.log('Password:', password);
-      // Aqui você pode adicionar a lógica para autenticar o usuário
     }
   }
 }

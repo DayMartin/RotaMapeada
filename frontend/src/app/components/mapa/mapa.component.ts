@@ -13,8 +13,8 @@ export class MapaComponent implements OnInit {
   mapHtml: SafeResourceUrl | undefined;
 
   constructor(
-    private mapService: MapaService, 
-    private sanitizer: DomSanitizer, 
+    private mapService: MapaService,
+    private sanitizer: DomSanitizer,
     public dialog: MatDialog
     ) { }
 
@@ -41,8 +41,6 @@ export class MapaComponent implements OnInit {
     });
 
     dialogRefEdit.afterClosed().subscribe((packageId: string) => {
-      // console.log('ID do pacote fechado:', packageId);
-      // console.log('id do pacote 1', this.data);
       this.ngOnInit
     });
   }

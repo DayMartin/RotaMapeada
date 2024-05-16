@@ -4,7 +4,6 @@ from datetime import datetime, timezone
 from flask import Flask, render_template
 import json
 import folium
-# from models.positionModel import Pontos
 
 pontos_controller = Blueprint('pontos_controller', __name__)
 
@@ -40,7 +39,8 @@ def create_pontos():
         return jsonify({'message': 'Novo ponto criado!'}), 201
     else:
         return jsonify({'error': 'latitude e longitude são necessários!'}), 400
-
+    
+#Rota para buscar todos os pontos
 @pontos_controller.route('/get/pontos', methods=['GET'])
 def get_pontos():
     try:
@@ -50,26 +50,21 @@ def get_pontos():
     except FileNotFoundError:
         return jsonify({'error': 'Arquivo de dados não encontrado'}), 404
     
-
+    
+#Rota para criar o mapa
 @pontos_controller.route('/mapa', methods=['GET'])
 def mapa():
-    # Carregar os dados do arquivo positions.json
     with open('back/positions.json', 'r') as f:
         data = json.load(f)
 
-    # Criar um mapa com a primeira coordenada como ponto inicial
     m = folium.Map(location=[float(data['data'][0]['latitude']), float(data['data'][0]['longitude'])], zoom_start=12)
 
-    # Adicionar marcadores para cada coordenada
     for point in data['data']:
         folium.Marker(location=[float(point['latitude']), float(point['longitude'])]).add_to(m)
 
-    # Criar uma linha poligonal conectando as coordenadas
     polyline = [(float(point['latitude']), float(point['longitude'])) for point in data['data']]
     folium.PolyLine(polyline, color="blue", weight=2.5, opacity=1).add_to(m)
 
-    # Salvar o mapa como um arquivo HTML
     m.save('back/templates/mapa.html')
 
-    # Renderizar o template HTML
     return render_template('mapa.html')
