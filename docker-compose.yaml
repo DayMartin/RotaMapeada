@@ -47,6 +47,17 @@ services:
     networks:
       - my_network
 
+  # front:
+  #   build:
+  #     context: .
+  #     dockerfile: frontend/Dockerfile
+  #   container_name: front_app
+  #   ports:
+  #     - 4200:80
+  #   networks:
+  #     - my_network
+
+
 
 volumes:
   mysql:

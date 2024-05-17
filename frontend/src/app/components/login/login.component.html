@@ -9,15 +9,16 @@
             <mat-label>Username</mat-label>
             <input matInput formControlName="username" required>
           </mat-form-field>
-  
+
           <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
             <input matInput formControlName="password" type="password" required>
           </mat-form-field>
-  
-          <button mat-raised-button color="primary" type="submit">Login</button>
+          <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Login</button>
+            <button  mat-raised-button color="primary" routerLink="/cadastrar">Cadastrar</button>
+          </div>
         </form>
       </mat-card-content>
     </mat-card>
   </div>
-  

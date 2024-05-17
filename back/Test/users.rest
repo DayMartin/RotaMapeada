@@ -12,3 +12,13 @@ Content-Type: application/json
     "username": "Doria",
     "password": "teste"
 }
+
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "Doria",
+    "password": "teste"
+}

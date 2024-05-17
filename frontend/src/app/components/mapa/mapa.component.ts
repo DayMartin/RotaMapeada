@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { MapaService } from 'src/services/mapa.service';
+import { MapaService } from 'src/services/Mapa/mapa.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CadastrarPontoComponent } from '../cadastrar-ponto/cadastrar-ponto.component';
 

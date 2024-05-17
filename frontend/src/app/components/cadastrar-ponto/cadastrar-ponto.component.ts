@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MapaService } from 'src/services/mapa.service';
+import { MapaService } from 'src/services/Mapa/mapa.service';
 
 @Component({
   selector: 'app-cadastrar-ponto',

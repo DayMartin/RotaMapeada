@@ -5,6 +5,7 @@ import datetime
 from functools import wraps
 from db.database import get_mysql_connection
 from models.userModel import Person
+from werkzeug.security import check_password_hash
 
 user_controller = Blueprint('user_controller', __name__)
 
@@ -40,22 +41,27 @@ def consultar_users():
     return jsonify(users), 200  
 
 
-# @user_controller.route('/login', methods=['POST'])
-# def login():
-#     auth = request.authorization
+@user_controller.route('/login', methods=['POST'])
+def login():
+    auth = request.authorization
+    if not auth or not auth.username or not auth.password:
+        return jsonify({'message': 'Credenciais não fornecidas!'}), 401
 
-#     conn = get_mysql_connection()
-#     cursor = conn.cursor(dictionary=True)
+    conn = get_mysql_connection()
+    cursor = conn.cursor(dictionary=True)
 
-#     cursor.execute("SELECT * FROM people WHERE username = %s", (auth.username,))
-#     user = cursor.fetchone()
-#     cursor.close()
-#     conn.close()
+    cursor.execute("SELECT * FROM people WHERE username = %s", (auth.username,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
     
-#     if not user:
-#         return jsonify({'message': 'Usuário não encontrado!'}), 401
+    if not user:
+        return jsonify({'message': 'Usuário não encontrado!'}), 401
+
+    if not check_password_hash(user['password'], auth.password):
+        return jsonify({'message': 'Senha incorreta!'}), 401
     
-#     return jsonify({'message': 'Senha incorreta!'}), 401
+    return jsonify({'message': 'Login efetuado com sucesso!'}), 200
 
 # def token_required(f):
 #     @wraps(f)
