@@ -1,4 +1,10 @@
 jwt
+pyjwt
+PyJWT
+pytz
+geopy
+requests
+itsdangerous
 # flask_marshmallow
 
 Flask

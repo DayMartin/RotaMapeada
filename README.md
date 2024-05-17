@@ -1,14 +1,18 @@
-### Este projeto se inicia por partes
+### Como usar este projeto
 
 ### Iniciar o Backend e o Banco de dados
+
+1. No terminal entre no diretório ./back
+2. Digite o comando abaixo:
 
 ```sh
 docker-compose up
 ```
 
-### Iniciar o Front de dados:
-1. No terminal entre na pasta ./frontend
+### Iniciar o Front:
+1. No terminal entre no diretório ./frontend
 2. No terminal  digite: yarn dev
+3. Caso o yarn dev não funcione inicie o projeto com ''ng serve''
 
 ### O Projeto iniciará
 
@@ -18,7 +22,7 @@ docker-compose up
 
 OBS: 
 
-Existe uma pasta no backend chamada 'Test' para utilizar os arquivos de teste instale
+Existe um diretório no backend chamado 'Test' para utilizar os arquivos de teste instale
 no vscode a extensão 'REST Cliente'
 
 ### A rota para inclusão de pontos atualiza os dados de positions.json
@@ -29,11 +33,4 @@ no vscode a extensão 'REST Cliente'
 sudo systemctl stop mysql
 ```
 
-<!-- # installs nvm (Node Version Manager)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-# download and install Node.js
-nvm install 20
-
-npm install -g @angular/cli
-ng new frontnd -->
+### Por fim, faça o cadastro do seu usário para poder se logar no sistema

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -21,9 +21,20 @@ export class UserService {
   }
 
   loginUser(data: { username: string, password: string }): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa(`${data.username}:${data.password}`)
-    });
-    return this.http.post(`${environment.URL_BASE}/login`, {}, { headers });
+    return this.http.post(`${environment.URL_BASE}/login`, data).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        }
+      })
+    );
+  }
+
+  logoutUser(): void {
+    localStorage.removeItem('token');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

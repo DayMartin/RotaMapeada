@@ -18,6 +18,10 @@ export class MapaComponent implements OnInit {
     public dialog: MatDialog
     ) { }
 
+  resetInit(){
+    this.ngOnInit()
+  }
+
   ngOnInit(): void {
     this.mapService.construirMapa().subscribe(
       data => {
@@ -36,12 +40,13 @@ export class MapaComponent implements OnInit {
 
   abrirDialogo() {
     const dialogRefEdit = this.dialog.open(CadastrarPontoComponent, {
-      width: '1000px',
+      width: '30%',
       data: {},
     });
 
     dialogRefEdit.afterClosed().subscribe((packageId: string) => {
-      this.ngOnInit
+      this.resetInit()
     });
   }
+
 }

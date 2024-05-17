@@ -18,7 +18,7 @@ export class AuthService {
     this.isAuthenticatedSubject.next(false);
   }
 
-  isLoggedIn(): boolean {
-    return this.isAuthenticatedSubject.value;
+  isLoggedIn(): Observable<boolean> {
+    return this.isAuthenticated;
   }
 }

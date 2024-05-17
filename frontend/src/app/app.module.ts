@@ -20,7 +20,8 @@ import { CadastrarPontoComponent } from './components/cadastrar-ponto/cadastrar-
 import { MatDialogModule } from '@angular/material/dialog';
 import { CadastrarUserComponent } from './components/cadastrar-user/cadastrar-user.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http'
+import { AuthInterceptor } from 'src/guard/interceptor';
 
 @NgModule({
   declarations: [AppComponent, MapaComponent, LoginComponent, SafeHtmlPipe, CadastrarPontoComponent, CadastrarUserComponent],
@@ -39,7 +40,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDialogModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -4,6 +4,7 @@ import { AuthService } from 'src/services/Auth/AuthService';
 import { UserService } from 'src/services/User/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -54,9 +55,10 @@ export class LoginComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.userService.logoutUser();
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn(): Observable<boolean> {
     return this.authService.isLoggedIn();
   }
 

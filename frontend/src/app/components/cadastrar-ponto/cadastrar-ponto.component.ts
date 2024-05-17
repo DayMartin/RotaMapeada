@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MapaService } from 'src/services/Mapa/mapa.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-cadastrar-ponto',
@@ -10,7 +12,11 @@ import { MapaService } from 'src/services/Mapa/mapa.service';
 export class CadastrarPontoComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private mapService: MapaService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private mapService: MapaService,
+    private snackBar: MatSnackBar
+    ) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -35,6 +41,7 @@ export class CadastrarPontoComponent implements OnInit {
       this.mapService.cadastrarPonto({ latitude, longitude }).subscribe(
         response => {
           console.log('Ponto cadastrado com sucesso:', response);
+          this.showSuccessMessage()
           this.form.reset();
         },
         error => {
@@ -42,6 +49,12 @@ export class CadastrarPontoComponent implements OnInit {
         }
       );
     }
+  }
+
+  showSuccessMessage(): void {
+    this.snackBar.open('Ponto cadastrado com sucesso!', 'Fechar', {
+      duration: 3000,
+    });
   }
 
 }

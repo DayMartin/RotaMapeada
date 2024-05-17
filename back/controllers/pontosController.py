@@ -1,13 +1,43 @@
 import json
-from flask import Blueprint, jsonify, request
+import requests
+from flask import Blueprint, jsonify, request, Flask, render_template
 from datetime import datetime, timezone
-from flask import Flask, render_template
-import json
 import folium
+from geopy.distance import geodesic
+import time
+
 
 pontos_controller = Blueprint('pontos_controller', __name__)
 
-# pontos = Pontos()
+def carregar_dados_locais():
+    try:
+        with open('back/positions.json', 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {"data": []}
+
+def salvar_dados_locais(dados):
+    with open('back/positions.json', 'w') as file:
+        json.dump(dados, file, indent=4)
+
+def sincronizar_dados_github():
+    dados_locais = carregar_dados_locais()
+
+    try:
+        response = requests.get('https://raw.githubusercontent.com/DayMartin/platform-test/master/positions.json')
+        response.raise_for_status()
+
+        dados_github = response.json()
+
+        novos_dados = [d for d in dados_github['data'] if d not in dados_locais['data']]
+
+        dados_locais['data'].extend(novos_dados)
+
+        salvar_dados_locais(dados_locais)
+
+        print('Dados sincronizados com sucesso.')
+    except Exception as e:
+        print(f'Erro ao sincronizar dados: {e}')
 
 # Rota para criar novos pontos
 @pontos_controller.route('/register/pontos', methods=['POST'])
@@ -25,46 +55,57 @@ def create_pontos():
             "longitude": longitude
         }
 
-        try:
-            with open('back/positions.json', 'r') as file:
-                positions_data = json.load(file)
-        except FileNotFoundError:
-            positions_data = {"data": []}
-
-        positions_data["data"].append(new_point)
-
-        with open('back/positions.json', 'w') as file:
-            json.dump(positions_data, file, indent=4)
+        dados_locais = carregar_dados_locais()
+        dados_locais['data'].append(new_point)
+        salvar_dados_locais(dados_locais)
 
         return jsonify({'message': 'Novo ponto criado!'}), 201
     else:
         return jsonify({'error': 'latitude e longitude são necessários!'}), 400
-    
-#Rota para buscar todos os pontos
+
+# Rota para buscar todos os pontos
 @pontos_controller.route('/get/pontos', methods=['GET'])
 def get_pontos():
     try:
-        with open('back/positions.json', 'r') as file:
-            positions_data = json.load(file)
-            return jsonify(positions_data), 200
+        dados_locais = carregar_dados_locais()
+        return jsonify(dados_locais), 200
     except FileNotFoundError:
         return jsonify({'error': 'Arquivo de dados não encontrado'}), 404
-    
-    
-#Rota para criar o mapa
+
+# Rota para criar o mapa
 @pontos_controller.route('/mapa', methods=['GET'])
 def mapa():
-    with open('back/positions.json', 'r') as f:
-        data = json.load(f)
+    sincronizar_dados_github()
+    dados_locais = carregar_dados_locais()
 
-    m = folium.Map(location=[float(data['data'][0]['latitude']), float(data['data'][0]['longitude'])], zoom_start=12)
+    m = folium.Map(location=[float(dados_locais['data'][0]['latitude']), float(dados_locais['data'][0]['longitude'])], zoom_start=12)
 
-    for point in data['data']:
+    total_distance = 0
+
+    for i, point in enumerate(dados_locais['data']):
         folium.Marker(location=[float(point['latitude']), float(point['longitude'])]).add_to(m)
+        if i > 0:
+            prev_point = dados_locais['data'][i - 1]
+            current_point = point
+            distance = geodesic((prev_point['latitude'], prev_point['longitude']), (current_point['latitude'], current_point['longitude'])).kilometers
+            total_distance += distance * 1000  # Convertendo para metros e somando
 
-    polyline = [(float(point['latitude']), float(point['longitude'])) for point in data['data']]
+            # Adicionando um marcador com a distância acumulada até este ponto
+            folium.Marker(location=[float(point['latitude']), float(point['longitude'])], 
+                          icon=folium.DivIcon(html=f"<div style='font-size: 14px;'>{round(total_distance, 2)} metros</div>")).add_to(m)  # Defina o tamanho da fonte aqui
+
+    polyline = [(float(point['latitude']), float(point['longitude'])) for point in dados_locais['data']]
     folium.PolyLine(polyline, color="blue", weight=2.5, opacity=1).add_to(m)
 
     m.save('back/templates/mapa.html')
 
-    return render_template('mapa.html')
+    return render_template('mapa.html', total_distance=total_distance)
+
+
+if __name__ == "__main__":
+    contador = 0
+    while True:
+        contador += 1
+        sincronizar_dados_github()
+        print(f'Atualização {contador} concluída.')
+        time.sleep(60)

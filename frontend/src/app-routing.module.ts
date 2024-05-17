@@ -9,14 +9,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'cadastrar', component: CadastrarUserComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' },
   { path: 'mapa', component: MapaComponent, canActivate: [AuthGuard] },
-
 ];
 
 @NgModule({
-  declarations: [],
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
