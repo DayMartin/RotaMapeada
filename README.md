@@ -1,3 +1,10 @@
+
+![image](https://github.com/user-attachments/assets/61ebd563-a636-465b-923b-737ed95b827a)
+![image](https://github.com/user-attachments/assets/663dc4c8-c67a-47fe-a69b-5be6d9de398a)
+![image](https://github.com/user-attachments/assets/e447b5d0-0ac9-4465-9efd-b38c36a546a9)
+![image](https://github.com/user-attachments/assets/972bf736-4ab5-4f2b-a7f6-4ba01a9efcda)
+
+
 ### Como usar este projeto
 
 ### Iniciar o Backend e o Banco de dados
