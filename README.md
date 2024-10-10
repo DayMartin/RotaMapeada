@@ -1,3 +1,4 @@
+Projeto para demonstração de conhecimnetos com Python e GeoPy, com adição de coordenadas para pontuação em mapa.É possível visualizar a distância de cada coordenada.
 
 ![image](https://github.com/user-attachments/assets/61ebd563-a636-465b-923b-737ed95b827a)
 ![image](https://github.com/user-attachments/assets/663dc4c8-c67a-47fe-a69b-5be6d9de398a)
